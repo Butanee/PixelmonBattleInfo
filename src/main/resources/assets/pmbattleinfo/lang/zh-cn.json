@@ -1,0 +1,16 @@
+{
+  "key.category.pmbattleinfo.general": "Pixelmon 对战信息",
+  "key.category.pmbattleinfo.tooltip": "Pixelmon 对战信息: 对战工具框",
+
+  "key.pmbattleinfo.battle.tt_ally_1": "我方1",
+  "key.pmbattleinfo.battle.tt_ally_2": "我方2",
+  "key.pmbattleinfo.battle.tt_ally_3": "我方3",
+  "key.pmbattleinfo.battle.tt_ally_4": "我方4",
+  "key.pmbattleinfo.battle.tt_ally_5": "我方5",
+
+  "key.pmbattleinfo.battle.tt_enemy_1": "敌方1",
+  "key.pmbattleinfo.battle.tt_enemy_2": "敌方2",
+  "key.pmbattleinfo.battle.tt_enemy_3": "敌方3",
+  "key.pmbattleinfo.battle.tt_enemy_4": "敌方4",
+  "key.pmbattleinfo.battle.tt_enemy_5": "敌方5"
+}

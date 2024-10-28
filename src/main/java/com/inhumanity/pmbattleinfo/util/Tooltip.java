@@ -10,15 +10,14 @@ import com.pixelmonmod.pixelmon.battles.attacks.Effectiveness;
 import com.pixelmonmod.pixelmon.client.ClientProxy;
 import com.pixelmonmod.pixelmon.client.gui.battles.PixelmonClientData;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class Tooltip {
@@ -32,7 +31,9 @@ public class Tooltip {
 
     public static Collection<ITextComponent> getTooltip(final PixelmonClientData PCD) {
         Collection<ITextComponent> res = new ArrayList<>();
-        if (PCD == null) return res;
+        if (PCD == null) {
+            return res;
+        }
 
         final PixelmonClientData[] ourPCDs = ClientProxy.battleManager.displayedOurPokemon;
 
@@ -50,14 +51,17 @@ public class Tooltip {
         attributes.put(TooltipValues.Name, newSTC(getNameToUse(PCD)).withStyle(nameColor).withStyle(TextFormatting.BOLD));
 
         // General Attributes
-        attributes.put(TooltipValues.Types, newSTC("Types: " + String.join(", ", PCD.getBaseStats().getTypes().stream().map(Element::getLocalizedName).toArray(String[]::new))));
-        attributes.put(TooltipValues.Palette, newSTC("Palette: " + PCD.palette));
-        attributes.put(TooltipValues.Weight, newSTC("Weight: " + PCD.getBaseStats().getWeight()));
-        attributes.put(TooltipValues.Form, newSTC("Form: " + PCD.form));
+            attributes.put(TooltipValues.Types, newSTC("属性: " + String.join(", ", PCD.getBaseStats().getTypes().stream().map(Element::getLocalizedName).toArray(String[]::new))));
+            attributes.put(TooltipValues.Palette, newSTC("闪光: " + PCD.palette));
+//            attributes.put(TooltipValues.Weight, newSTC("Weight: " + PCD.getBaseStats().getWeight()));
+            attributes.put(TooltipValues.Form, newSTC("形态: " + PCD.form));
 
         // Add Ownership / Config determined Attributes
-        if (isOurs && !hasMultipleOurs)     attributes.putAll(getTooltipOurs(PCD));
-        else                               attributes.putAll(getTooltipEnemyAlly(PCD, isEnemy));
+        if (isOurs && !hasMultipleOurs) {
+            attributes.putAll(getTooltipOurs(PCD));
+        } else {
+            attributes.putAll(getTooltipEnemyAlly(PCD, isEnemy));
+        }
 
         // CREATE TOOLTIP
         res.add(attributes.get(TooltipValues.Name));
@@ -67,7 +71,7 @@ public class Tooltip {
         res.add(attributes.get(TooltipValues.HeldItem));
         res.add(attributes.get(TooltipValues.Form));
         res.add(attributes.get(TooltipValues.Palette));
-        res.add(attributes.get(TooltipValues.Weight));
+//        res.add(attributes.get(TooltipValues.Weight));
 
         // Show Moveset of current Pixelmon if User owns multiple displayed Pixelmon
         // OR if it is an Enemy or an Ally
@@ -75,7 +79,7 @@ public class Tooltip {
         if ((isOurs && hasMultipleOurs) || (!isOurs && configKnowMoveset) || isSpectating()) {
             res.add(newSTC("")); // Spacer
 
-            String title = (isEnemy ? "Moves Effective to You" : "Moves");
+            String title = (isEnemy ? "对您有效的招式" : "Moves");
             res.add(newSTC(title).withStyle(TextFormatting.GOLD).withStyle(TextFormatting.BOLD));
 
             // Add moves if they exist
@@ -103,9 +107,9 @@ public class Tooltip {
     private static HashMap<TooltipValues, ITextComponent> getTooltipOurs(final PixelmonClientData ours) {
         HashMap<TooltipValues, ITextComponent> res = new HashMap<>();
 
-        res.put(TooltipValues.HP, newSTC(String.format("HP: %d / %d", ours.health.intValue(), ours.maxHealth)));
-        res.put(TooltipValues.Ability, newSTC("Ability: " + ours.moveset.getAbility().getLocalizedName()));
-        res.put(TooltipValues.HeldItem, newSTC("Held Item: " + ours.heldItem.getLocalizedName()));
+            res.put(TooltipValues.HP, newSTC(String.format("生命: %d / %d", ours.health.intValue(), ours.maxHealth)));
+            res.put(TooltipValues.Ability, newSTC("特性: " + ours.moveset.getAbility().getLocalizedName()));
+            res.put(TooltipValues.HeldItem, newSTC("持有物" + ours.heldItem.getLocalizedName()));
 
         // HP: curr / max
         // Ability
@@ -126,9 +130,9 @@ public class Tooltip {
         String ability = (!configAbility ? "?" : AllyOrEnemy.moveset.getAbility().getLocalizedName());
         String heldItemName = (!configHeldItem ? "?" : AllyOrEnemy.heldItem.getLocalizedName());
 
-        res.put(TooltipValues.HP, newSTC(String.format("HP: %s / %s", hpCurr, hpMax)));
-        res.put(TooltipValues.Ability, newSTC("Ability: " + ability));
-        res.put(TooltipValues.HeldItem, newSTC("Held Item: " + heldItemName));
+            res.put(TooltipValues.HP, newSTC(String.format("生命: %s / %s", hpCurr, hpMax)));
+            res.put(TooltipValues.Ability, newSTC("特性: " + ability));
+            res.put(TooltipValues.HeldItem, newSTC("持有物: " + heldItemName));
 
         // If moveset config on
         if (configKnowMoveset) {
@@ -164,19 +168,19 @@ public class Tooltip {
                     }
 
                     String atkCategory = atk.getAttackCategory().name();
-                    switch (atkCategory) {
-                        case "PHYSICAL":    atkCategory = "phy";    break;
-                        case "SPECIAL":     atkCategory = "spe";    break;
-                        case "STATUS":      atkCategory = "sta";    break;
-                        default:            atkCategory = "-";
+                        switch (atkCategory) {
+                            case "PHYSICAL":    atkCategory = "物理";    break;
+                            case "SPECIAL":     atkCategory = "特殊";    break;
+                            case "STATUS":      atkCategory = "变化";    break;
+                            default:            atkCategory = "-";
                     }
                     int atkPower = atk.movePower;
                     String atkAccuracy = (atk.getMove().getAccuracy() == -1 ? "-" : String.valueOf(atk.getMove().getAccuracy()));
 
                     TextFormatting color = getMoveTextColor(isEnemy, atk.getType());
 
-                    res.put(enumMove, newSTC(String.format("%2dpp, %s : %s", ppCurr, atkType, atkName)).withStyle(color));
-                    res.put(enumMoveInfo, newSTC(String.format("   CAT: %s, POW: %d, ACC: %s", atkCategory, atkPower, atkAccuracy)).withStyle(color));
+                        res.put(enumMove, newSTC(String.format("%2dpp, %s : %s", ppCurr, atkType, atkName)).withStyle(color));
+                        res.put(enumMoveInfo, newSTC(String.format("   类型: %s, 威力: %d, 命中: %s", atkCategory, atkPower, atkAccuracy)).withStyle(color));
                 }
 
                 i++;
@@ -221,12 +225,19 @@ public class Tooltip {
     }
 
     private static TextFormatting getMultiplierColor(double m) {
-        if      (m == Effectiveness.Max.value)      return TextFormatting.DARK_GREEN;
-        else if (m == Effectiveness.Super.value)    return TextFormatting.GREEN;
-        else if (m == Effectiveness.Normal.value)   return TextFormatting.WHITE;
-        else if (m == Effectiveness.Not.value)      return TextFormatting.RED;
-        else if (m == Effectiveness.Barely.value)   return TextFormatting.DARK_RED;
-        else                                        return TextFormatting.DARK_GRAY;
+        if      (m == Effectiveness.Max.value) {
+            return TextFormatting.DARK_GREEN;
+        } else if (m == Effectiveness.Super.value) {
+            return TextFormatting.GREEN;
+        } else if (m == Effectiveness.Normal.value) {
+            return TextFormatting.WHITE;
+        } else if (m == Effectiveness.Not.value) {
+            return TextFormatting.RED;
+        } else if (m == Effectiveness.Barely.value) {
+            return TextFormatting.DARK_RED;
+        } else {
+            return TextFormatting.DARK_GRAY;
+        }
     }
 
     private static boolean isInverseBattle() {

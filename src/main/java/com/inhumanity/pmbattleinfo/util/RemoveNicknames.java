@@ -18,7 +18,9 @@ public class RemoveNicknames {
     }
 
     public static void removeNickname(PixelmonClientData PCD) {
-        if (!configEnabled) return;
+        if (!configEnabled) {
+            return;
+        }
 
         if (PCD != null) {
             PCD.nickname = PCD.species.getLocalizedName();
@@ -26,20 +28,26 @@ public class RemoveNicknames {
     }
 
     public static void removeNicknames(PixelmonClientData[] arrPCD) {
-        if (!configEnabled) return;
+        if (!configEnabled) {
+            return;
+        }
 
         for (PixelmonClientData PCD : arrPCD) {
-            if (PCD != null)
+            if (PCD != null) {
                 PCD.nickname = PCD.species.getLocalizedName();
+            }
         }
     }
 
     public static void removeNicknames(Collection<PixelmonClientData> arrPCD) {
-        if (!configEnabled) return;
+        if (!configEnabled) {
+            return;
+        }
 
         for (PixelmonClientData PCD : arrPCD) {
-            if (PCD != null)
+            if (PCD != null) {
                 PCD.nickname = PCD.species.getLocalizedName();
+            }
         }
     }
 }

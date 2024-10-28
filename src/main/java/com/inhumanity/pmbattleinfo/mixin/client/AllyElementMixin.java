@@ -40,17 +40,27 @@ public abstract class AllyElementMixin extends PixelmonWidget {
     private void drawPixelmonBattleTooltipAllies(MatrixStack matrix, float scale, CallbackInfo ci) {
         RemoveNicknames.removeNickname(ally);
 
-        if (!pmbattleinfo$configTooltip) return;
+        if (!pmbattleinfo$configTooltip) {
+            return;
+        }
 
         // Get list of Displayed Pixelmon
         ArrayList<PixelmonClientData> displayed = new ArrayList<>();
-        if (ClientProxy.battleManager.displayedOurPokemon != null) displayed.addAll(Arrays.asList(ClientProxy.battleManager.displayedOurPokemon));
-        if (ClientProxy.battleManager.displayedAllyPokemon != null) displayed.addAll(Arrays.asList(ClientProxy.battleManager.displayedAllyPokemon));
-        if (displayed.isEmpty()) return;
+        if (ClientProxy.battleManager.displayedOurPokemon != null) {
+            displayed.addAll(Arrays.asList(ClientProxy.battleManager.displayedOurPokemon));
+        }
+        if (ClientProxy.battleManager.displayedAllyPokemon != null) {
+            displayed.addAll(Arrays.asList(ClientProxy.battleManager.displayedAllyPokemon));
+        }
+        if (displayed.isEmpty()) {
+            return;
+        }
 
         // Check alive status: if not null AND has HP, it can have a Tooltip
         boolean isAlive = (ally != null && ally.health.intValue() > 0);
-        if (!isAlive) return;
+        if (!isAlive) {
+            return;
+        }
 
         int idx = 0;
         for (PixelmonClientData pcd : displayed) {

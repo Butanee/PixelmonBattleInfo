@@ -4,7 +4,7 @@ public enum TooltipValues {
     Name, Palette, Form,
     HP,
     Types,
-    Weight,
+//    Weight,
     Ability,
     HeldItem,
     Move1, Move1Info,

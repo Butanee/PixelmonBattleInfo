@@ -29,7 +29,9 @@ public abstract class MoveButtonMixin {
 
     @ModifyArgs(method = "renderButton", at = @At(value = "INVOKE", target = "Lcom/pixelmonmod/pixelmon/client/gui/ScreenHelper;drawImage(Lnet/minecraft/util/ResourceLocation;Lcom/mojang/blaze3d/matrix/MatrixStack;FFFFFFFFF)V"))
     private void modifyRGB(Args args) {
-        if (!pmbattleinfo$configColoredMoveset) return;
+        if (!pmbattleinfo$configColoredMoveset) {
+            return;
+        }
 
         Color color = pmbattleinfo$getEffectivenessColor();
 
@@ -46,11 +48,18 @@ public abstract class MoveButtonMixin {
 
         double multiplier = Element.getTotalEffectiveness(enemy.getBaseStats().getTypes(), attack.getType(), isInverseBattle);
 
-        if (multiplier == Effectiveness.Max.value)          return new Color(0, 170, 0);        // DARK_GREEN
-        else if (multiplier == Effectiveness.Super.value)   return new Color(85, 255, 85);      // GREEN
-        else if (multiplier == Effectiveness.Normal.value)  return new Color(255, 255, 255);    // WHITE
-        else if (multiplier == Effectiveness.Not.value)     return new Color(255, 85, 85);      // RED
-        else if (multiplier == Effectiveness.Barely.value)  return new Color(170, 0, 0);        // DARK_RED
-        else                                                return new Color(85, 85, 85);    // GRAY
+        if (multiplier == Effectiveness.Max.value) {
+            return new Color(0, 170, 0);        // DARK_GREEN
+        } else if (multiplier == Effectiveness.Super.value) {
+            return new Color(85, 255, 85);      // GREEN
+        } else if (multiplier == Effectiveness.Normal.value) {
+            return new Color(255, 255, 255);    // WHITE
+        } else if (multiplier == Effectiveness.Not.value) {
+            return new Color(255, 85, 85);      // RED
+        } else if (multiplier == Effectiveness.Barely.value) {
+            return new Color(170, 0, 0);        // DARK_RED
+        } else {
+            return new Color(85, 85, 85);    // GRAY
+        }
     }
 }

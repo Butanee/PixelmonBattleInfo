@@ -35,10 +35,14 @@ public abstract class OpponentElementMixin extends PixelmonWidget {
     private void drawPixelmonBattleTooltipEnemy(MatrixStack matrix, float scale, CallbackInfo ci) {
         RemoveNicknames.removeNickname(enemy);
 
-        if (!pmbattleinfo$configTooltip) return;
+        if (!pmbattleinfo$configTooltip) {
+            return;
+        }
 
         boolean isAlive = (enemy != null && enemy.health.intValue() > 0);
-        if (!isAlive) return;
+        if (!isAlive) {
+            return;
+        }
 
         int idx = 0;
         for (PixelmonClientData pcd : ClientProxy.battleManager.displayedEnemyPokemon) {

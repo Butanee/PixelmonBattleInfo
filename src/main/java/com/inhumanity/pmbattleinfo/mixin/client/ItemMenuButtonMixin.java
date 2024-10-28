@@ -84,7 +84,7 @@ public abstract class ItemMenuButtonMixin extends MenuListButton {
 
         // Tooltip Header
         ArrayList<ITextComponent> tooltip = new ArrayList<>();
-        tooltip.add(new StringTextComponent("Catch Rates").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.RED));
+        tooltip.add(new StringTextComponent("捕捉率").withStyle(TextFormatting.BOLD).withStyle(TextFormatting.RED));
 
         // For each Ball stored
         for (String ballName : pmbattleinfo$balls) {
@@ -92,19 +92,26 @@ public abstract class ItemMenuButtonMixin extends MenuListButton {
             RegistryValue<PokeBall> regPokeBall = getPokeBall(ballName.toLowerCase().replace(" ", "_"));
 
             // Special Key Cases (primarily the accent on E in Poke)
-            if (ballName.toLowerCase().contains("christmas pok")) regPokeBall = CHRISTMAS_BALL;
-            else if (ballName.toLowerCase().contains("ancient pok")) regPokeBall = ANCIENT_POKE_BALL;
-            else if (ballName.toLowerCase().contains("pok")) regPokeBall = POKE_BALL;
+            if (ballName.toLowerCase().contains("christmas pok")) {
+                regPokeBall = CHRISTMAS_BALL;
+            } else if (ballName.toLowerCase().contains("ancient pok")) {
+                regPokeBall = ANCIENT_POKE_BALL;
+            } else if (ballName.toLowerCase().contains("pok")) {
+                regPokeBall = POKE_BALL;
+            }
 
             // Just in case Ball not found, skip this Ball
-            if (!regPokeBall.getValue().isPresent()) continue;
+            if (!regPokeBall.getValue().isPresent()) {
+                continue;
+            }
 
             double chance = PokeBallMath.getCatchChance(regPokeBall, enemy, ours);
 
             // Text is base white, gold if >=100%, and gray if not fully supported
             TextFormatting textColor = (100 <= chance ? TextFormatting.GOLD : TextFormatting.WHITE);
-            if (regPokeBall.equals(DIVE_BALL) || regPokeBall.equals(DUSK_BALL) || regPokeBall.equals(LURE_BALL) || regPokeBall.equals(MOON_BALL) || regPokeBall.equals(REPEAT_BALL) || regPokeBall.equals(SAFARI_BALL))
+            if (regPokeBall.equals(DIVE_BALL) || regPokeBall.equals(DUSK_BALL) || regPokeBall.equals(LURE_BALL) || regPokeBall.equals(MOON_BALL) || regPokeBall.equals(REPEAT_BALL) || regPokeBall.equals(SAFARI_BALL)) {
                 textColor = TextFormatting.GRAY;
+            }
 
             tooltip.add(new StringTextComponent(String.format("%s:  %.1f%%", ballName, chance)).withStyle(textColor));
         }
